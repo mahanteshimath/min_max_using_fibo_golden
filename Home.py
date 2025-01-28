@@ -31,15 +31,15 @@ pg1 = st.Page(
 )
 
 pg2 = st.Page(
-    "pages/WeatherAlert.py",
-    title="WeatherAlert",
+    "pages/search.py",
+    title="Search",
     icon=":material/cloud:"
 )
 
 pg = st.navigation(
     {
         "Info": [pg1],
-        "Openweathermap": [pg2]
+        "Search Method": [pg2]
     }
 )
 
