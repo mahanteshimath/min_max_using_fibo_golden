@@ -15,7 +15,7 @@ st.logo(
 )
 
 st.set_page_config(
-  page_title="Weather Alert",
+  page_title="Min_Max_Finder",
   page_icon=":partly_sunny:",
   layout="wide",
   initial_sidebar_state="expanded",
