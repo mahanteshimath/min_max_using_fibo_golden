@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Golden Section Search Function (Corrected)
+# Golden Section Search Function (Updated for phi(x1) = phi(x2))
 def golden_section_search(phi, a, b, tolerance):
     rho = (3 - np.sqrt(5)) / 2  # Golden ratio
     iterations = []
@@ -21,8 +21,19 @@ def golden_section_search(phi, a, b, tolerance):
         elif phi_x1 > phi_x2:
             a = x1  # Minimum is in [x1, b]
         else:
-            # If phi(x1) == phi(x2), retain the interval [x2, x1]
-            a, b = x2, x1
+            # If phi(x1) == phi(x2), evaluate a third point x3
+            x3 = (x1 + x2) / 2  # Midpoint of [x1, x2]
+            phi_x3 = phi(x3)
+            
+            if phi_x3 < phi_x1:
+                # Minimum is in [x1, x2]
+                a, b = x1, x2
+            else:
+                # Minimum could be in either subinterval; retain [a, x2] or [x1, b]
+                if phi(a) < phi(b):
+                    b = x2
+                else:
+                    a = x1
     
     return iterations
 
