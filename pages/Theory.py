@@ -15,6 +15,7 @@ $$1 - \phi = 0.382$$
 Two points x₁ and x₂ are chosen within interval [a, b]:
 
 $$x_1 = a + (1 - \phi)(b - a)$$
+
 $$x_2 = a + \phi(b - a)$$
 
 ### Steps for Minimization
@@ -22,9 +23,10 @@ $$x_2 = a + \phi(b - a)$$
 1. **Initialization**
    - Start with interval [a, b]
    - Compute intermediate points:
-   $$x_1 = a + (1 - \phi)(b - a)$$
 
-   $$x_2 = a + \phi(b - a)$$
+    $$x_1 = a + (1 - \phi)(b - a)$$
+
+    $$x_2 = a + \phi(b - a)$$
 
 2. **Iterative Update**
    - If f(x₁) < f(x₂), new interval: [a, x₂]
@@ -45,12 +47,12 @@ in the interval [1, 3] with ε = 0.42
 #### Step 1: Initial Calculations
 - Initial interval: [1, 3]
 - Calculate x₁ and x₂:
-$$x_1 = 1 + 0.382(3 - 1) = 1.764$$
-$$x_2 = 1 + 0.618(3 - 1) = 2.236$$
+  $$x_1 = 1 + 0.382(3 - 1) = 1.764$$
+  $$x_2 = 1 + 0.618(3 - 1) = 2.236$$
 
 #### Step 2: Function Evaluation
-$$f(x_1) = (1.764 - 2)^2 = 0.055$$
-$$f(x_2) = (2.236 - 2)^2 = 0.055$$
+  $$f(x_1) = (1.764 - 2)^2 = 0.055$$
+  $$f(x_2) = (2.236 - 2)^2 = 0.055$$
 
 #### Step 3: Comparison
 Since f(x₁) = f(x₂) = 0.055:
