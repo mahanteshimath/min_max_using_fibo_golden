@@ -3,7 +3,6 @@ import streamlit as st
 st.title('Golden Section Search Method Theory')
 
  # Add this near the top of the file, after the imports
-st.sidebar.header("About This Section")
 st.sidebar.markdown("""
 ### Key Concepts Covered:
 
