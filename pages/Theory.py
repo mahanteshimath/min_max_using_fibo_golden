@@ -135,4 +135,4 @@ Let \( f(x) = (x - 2)^2 \), interval \([1, 3]\), error tolerance \(\epsilon = 0.
 
 ### Summary
 The **Golden Section Method** efficiently reduces the interval using the golden ratio to approximate the minimum or maximum of a unimodal function. The iterative process stops when the desired error tolerance is achieved.)
-"""
+""")
