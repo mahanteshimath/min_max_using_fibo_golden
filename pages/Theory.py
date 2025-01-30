@@ -1,4 +1,6 @@
-### **Generic Formula for Golden Section Search Method**
+
+import streamlit as st
+latext = r'''### **Generic Formula for Golden Section Search Method**
 The **Golden Section Search Method** is an optimization technique used to find the **maxima** or **minima** of a unimodal function \( f(x) \) within a specified interval \([a, b]\). It uses the properties of the **golden ratio** to iteratively narrow the search interval. Here's the detailed explanation of the generic formulas for both **maximization** and **minimization**.
 
 ---
@@ -130,3 +132,5 @@ Let \( f(x) = (x - 2)^2 \), interval \([1, 3]\), error tolerance \(\epsilon = 0.
 
 ### Summary
 The **Golden Section Method** efficiently reduces the interval using the golden ratio to approximate the minimum or maximum of a unimodal function. The iterative process stops when the desired error tolerance is achieved.
+'''
+st.write(latext)
