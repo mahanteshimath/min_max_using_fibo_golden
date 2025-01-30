@@ -24,7 +24,7 @@ st.set_page_config(
 # --- Info ---
 
 pg1 = st.Page(
-    "pages/Theory.py",
+    "pages/Theory.md",
     title="Theory",
     icon=":material/cognition:",
     default=True,
