@@ -46,7 +46,7 @@ if st.sidebar.button("Run Golden Section Search"):
     iterations = golden_section_search(phi, a, b, tolerance)
     
     st.write("Iterations:")
-    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
+    df = pd.DataFrame(iterations, columns=["Interations","a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
     pd.set_option('display.float_format', lambda x: '%.5f' % x)
     st.dataframe(df)
     
