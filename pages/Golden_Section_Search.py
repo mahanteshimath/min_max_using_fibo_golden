@@ -2,11 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Golden Section Search Function (Fully Corrected)
+# Corrected Golden Section Search Function
 def golden_section_search(phi, a, b, tolerance):
-    rho = (3 - np.sqrt(5)) / 2  # Golden ratio
+    rho = (np.sqrt(5) - 1) / 2  # Correct golden ratio (~0.618)
     iterations = []
     
+    # Stop when interval length ≤ 2 * tolerance (error in min is ≤ tolerance)
     while (b - a) > 2 * tolerance:
         x1 = a + (1 - rho) * (b - a)
         x2 = a + rho * (b - a)
@@ -21,8 +22,8 @@ def golden_section_search(phi, a, b, tolerance):
         elif phi_x1 > phi_x2:
             a = x1  # Minimum is in [x1, b]
         else:
-            # If phi(x1) == phi(x2), arbitrarily choose [a, x2]
-            b = x2
+            # If φ(x1) = φ(x2), retain the interval [x1, x2]
+            a, b = x1, x2
     
     return iterations
 
