@@ -2,6 +2,38 @@ import streamlit as st
 
 st.title('Golden Section Search Method Theory')
 
+ # Add this near the top of the file, after the imports
+st.sidebar.header("About This Section")
+st.sidebar.markdown("""
+### Key Concepts Covered:
+
+1. **Golden Section Search**
+   - Golden ratio (φ) explanation
+   - Step-by-step implementation
+   - Example with calculations
+
+2. **Fibonacci Search**
+   - Fibonacci sequence fundamentals
+   - Algorithm implementation details
+   - Worked example with steps
+
+Both methods are optimization techniques used to find the minimum or maximum of unimodal functions in a specified interval.
+
+---
+**Note:** The theory section provides mathematical foundations and examples to help understand both search methods.
+""")
+
+# Add a divider for visual separation
+st.sidebar.divider()
+
+# Additional section for maximization
+st.markdown(r'''
+### Maximization
+The process is similar to finding the minimum, but the comparison is reversed:
+- If $$\(f(x_1) > f(x_2)\), the maximum lies in \([a, x_2]\)$$.
+- If $$\(f(x_1) < f(x_2)\), the maximum lies in \([x_1, b]\)$$.
+''')
+
 st.markdown(r'''
 The golden ratio (φ) is defined as:
 $$\phi = \frac{\sqrt{5} - 1}{2} \approx 0.618$$
@@ -132,10 +164,37 @@ $$x_{min} = 2.000$$
 $$f(x_{min}) = 0.000$$
 ''')
 
-# Additional section for maximization
-st.markdown(r'''
-### Maximization
-The process is similar to finding the minimum, but the comparison is reversed:
-- If \(f(x_1) > f(x_2)\), the maximum lies in \([a, x_2]\).
-- If \(f(x_1) < f(x_2)\), the maximum lies in \([x_1, b]\).
-''')
+
+st.markdown(
+    '''
+    <style>
+    .streamlit-expanderHeader {
+        background-color: blue;
+        color: white; # Adjust this for expander header color
+    }
+    .streamlit-expanderContent {
+        background-color: blue;
+        color: white; # Expander content color
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
+
+footer="""<style>
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+background-color: #2C1E5B;
+color: white;
+text-align: center;
+}
+</style>
+<div class="footer">
+<p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/mahantesh-hiremath/" target="_blank">MAHANTESH HIREMATH</a></p>
+</div>
+"""
+st.markdown(footer,unsafe_allow_html=True) 
