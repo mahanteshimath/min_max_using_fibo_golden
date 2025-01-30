@@ -15,8 +15,8 @@ st.logo(
 )
 
 st.set_page_config(
-  page_title="Min_Max_Finder",
-  page_icon=":partly_sunny:",
+  page_title="MIN-MAX-USING-GOLDEN-FIBO",
+  page_icon="🔍",
   layout="wide",
   initial_sidebar_state="expanded",
 ) 
@@ -24,22 +24,28 @@ st.set_page_config(
 # --- Info ---
 
 pg1 = st.Page(
-    "pages/Architecture.py",
-    title="Architecture",
+    "pages/Theory.py",
+    title="Theory",
     icon=":material/cognition:",
     default=True,
 )
 
 pg2 = st.Page(
-    "pages/search.py",
-    title="Search",
+    "pages/Fibo_Search.py",
+    title="Fibo Search",
+    icon=":material/cloud:"
+)
+
+pg3 = st.Page(
+    "pages/Golden_Section_Search.py",
+    title="Golden Section Search",
     icon=":material/cloud:"
 )
 
 pg = st.navigation(
     {
         "Info": [pg1],
-        "Search Method": [pg2]
+        "Search Method": [pg2, pg3],
     }
 )
 
