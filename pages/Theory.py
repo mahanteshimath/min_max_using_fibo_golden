@@ -13,8 +13,8 @@ $$1 - \phi = 0.382$$
 
 ### Generic Formula
 Two points x₁ and x₂ are chosen within interval [a, b]:
-$$x_1 = a + (1 - \phi)(b - a)$$
 
+$$x_1 = a + (1 - \phi)(b - a)$$
 $$x_2 = a + \phi(b - a)$$
 
 ### Steps for Minimization
