@@ -3,7 +3,6 @@ import streamlit as st
 st.title('Golden Section Search Method Theory')
 
 st.markdown(r'''
-
 The golden ratio (φ) is defined as:
 $$\phi = \frac{\sqrt{5} - 1}{2} \approx 0.618$$
 
@@ -17,16 +16,14 @@ $$x_1 = a + (1 - \phi)(b - a)$$
 $$x_2 = a + \phi(b - a)$$
 
 1. **Initialization**
-   - Start with interval [a, b]
-   - Compute intermediate points:
+   - Start with interval [a, b] Compute intermediate points:
 
     $$x_1 = a + (1 - \phi)(b - a)$$
 
     $$x_2 = a + \phi(b - a)$$
 
 2. **Iterative Update**
-   - If f(x₁) < f(x₂), new interval: [a, x₂]
-   - Otherwise, new interval: [x₁, b]
+   - If f(x₁) < f(x₂), new interval: [a, x₂] Otherwise, new interval: [x₁, b]
 
 3. **Stopping Criterion**
    $$|b - a| \leq \epsilon$$
@@ -40,8 +37,7 @@ $$f(x) = (x - 2)^2$$
 in the interval [1, 3] with ε = 0.42
 
 #### Step 1: Initial Calculations
-- Initial interval: [1, 3]
-- Calculate x₁ and x₂:
+- Initial interval: [1, 3] Calculate x₁ and x₂:
   $$x_1 = 1 + 0.382(3 - 1) = 1.764$$
   $$x_2 = 1 + 0.618(3 - 1) = 2.236$$
 
