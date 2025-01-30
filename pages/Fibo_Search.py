@@ -28,6 +28,15 @@ def fibonacci_search(phi, a, b, tolerance):
     
     return iterations
 
+def sanitize_function(func_str):
+    # Replace unicode minus with regular minus
+    func_str = func_str.replace('−', '-')
+    # Replace other common mathematical symbols
+    func_str = func_str.replace('^', '**')
+    # Remove any whitespace
+    func_str = func_str.replace(' ', '')
+    return func_str
+
 # Streamlit App
 st.title("Fibonacci Search Method")
 st.write("This app finds the minimum of a unimodal function using the Fibonacci Search method.")
@@ -36,22 +45,26 @@ st.write("This app finds the minimum of a unimodal function using the Fibonacci 
 st.sidebar.header("Input Parameters")
 st.sidebar.markdown("""
 **Function Input Guide:**
-- Use Python math syntax
-- Use `**` for powers
-- Use `-` (hyphen) for minus
-- Use `np.exp()` for exponential
-- Example: `3*x**2 - np.exp(x)` for 3x² - eˣ
+- Use simple Python syntax: (x-2)**2
+- Spaces will be automatically removed
+- Both regular minus (-) and mathematical minus (−) are supported
+- ^ will be converted to **
+- Examples:
+  * (x-2)**2
+  * x**2 + 2*x + 1
+  * 3*x**2 - np.exp(x)
 """)
-function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "3*x**2 - np.exp(x)")
+function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "(x-2)**2")
 a = st.sidebar.number_input("Enter the lower bound (a):", value=1.0)
 b = st.sidebar.number_input("Enter the upper bound (b):", value=3.0)
 tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.42)
 
-# Define the function from user input
+# Define the function from user input with sanitization
 try:
-    phi = lambda x: eval(function_input, {"np": np, "x": x})
+    sanitized_input = sanitize_function(function_input)
+    phi = lambda x: eval(sanitized_input, {"np": np, "x": x})
 except Exception as e:
-    st.error(f"Error in function definition: {e}")
+    st.error(f"Error in function definition: {str(e)}\nSanitized input: {sanitized_input}")
     st.stop()
 
 # Run Fibonacci Search
