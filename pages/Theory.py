@@ -3,7 +3,6 @@ import streamlit as st
 st.title('Golden Section Search Method Theory')
 
 st.markdown(r'''
-### Key Concepts
 
 The golden ratio (φ) is defined as:
 $$\phi = \frac{\sqrt{5} - 1}{2} \approx 0.618$$
@@ -11,14 +10,11 @@ $$\phi = \frac{\sqrt{5} - 1}{2} \approx 0.618$$
 Its complement (1 - φ) is:
 $$1 - \phi = 0.382$$
 
-### Generic Formula
 Two points x₁ and x₂ are chosen within interval [a, b]:
 
 $$x_1 = a + (1 - \phi)(b - a)$$
 
 $$x_2 = a + \phi(b - a)$$
-
-### Steps for Minimization
 
 1. **Initialization**
    - Start with interval [a, b]
@@ -39,7 +35,6 @@ $$x_2 = a + \phi(b - a)$$
    $$x_{min} = \frac{a + b}{2}$$
 
 ### Example for Minimization
-
 Let's find the minimum of:
 $$f(x) = (x - 2)^2$$
 in the interval [1, 3] with ε = 0.42
@@ -66,8 +61,6 @@ Final approximate minimum:
 $$x_{min} = 2.000$$
 $$f(x_{min}) = 0.000$$
 ''')
-
-
 # Additional section for maximization
 st.markdown(r'''
 ### Maximization
