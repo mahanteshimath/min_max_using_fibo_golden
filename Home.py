@@ -33,13 +33,13 @@ pg1 = st.Page(
 pg2 = st.Page(
     "pages/Fibo_Search.py",
     title="Fibo Search",
-    icon=":material/cloud:"
+    icon=":material/search:"
 )
 
 pg3 = st.Page(
     "pages/Golden_Section_Search.py",
     title="Golden Section Search",
-    icon=":material/cloud:"
+    icon=":material/search:"
 )
 
 pg = st.navigation(
