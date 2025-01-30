@@ -8,13 +8,13 @@ def golden_section_search(phi, a, b, tolerance):
     iterations = []
     
     while abs(b - a) > tolerance:
-        x1 = round(a + (1 - rho) * (b - a), 5)
-        x2 = round(a + rho * (b - a), 5)
+        x1 = round(a + (1 - rho) * (b - a), 9)
+        x2 = round(a + rho * (b - a), 9)
         
-        phi_x1 = round(phi(x1), 5)
-        phi_x2 = round(phi(x2), 5)
+        phi_x1 = round(phi(x1), 9)
+        phi_x2 = round(phi(x2), 9)
         
-        iterations.append([round(a, 5), round(b, 5), x1, x2, phi_x1, phi_x2])
+        iterations.append([round(a, 9), round(b, 9), x1, x2, phi_x1, phi_x2])
         
         if phi_x1 <= phi_x2:  # Changed to <= to handle equality case
             b = x2  # Choose left interval when equal
@@ -47,19 +47,19 @@ if st.sidebar.button("Run Golden Section Search"):
     
     st.write("Iterations:")
     df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
-    pd.set_option('display.float_format', lambda x: '%.5f' % x)
+    pd.set_option('display.float_format', lambda x: '%.9f' % x)
     st.dataframe(df)
     
     if len(iterations) > 0:
         final_a, final_b = iterations[-1][0], iterations[-1][1]
-        x_min = round((final_a + final_b)/2, 5)
-        f_min = round(phi(x_min), 5)
+        x_min = round((final_a + final_b)/2, 9)
+        f_min = round(phi(x_min), 9)
         
         st.write(f"Total number of iterations: {len(iterations)}")
         st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a)} tolerance :{tolerance}  is  {abs(final_b - final_a) <= tolerance} ")
-        st.write(f"Final interval width: {abs(final_b - final_a):.5f}")
+        st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
         st.write(f"Tolerance value: {tolerance}")
-        st.write(f"Final interval: [{final_a:.5f}, {final_b:.5f}]")
-        st.write(f"Function value at minimum: f({x_min:.5f}) = {f_min:.5f}")
+        st.write(f"Final interval: [{final_a:.9f}, {final_b:.9f}]")
+        st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
     else:
         st.write("Initial interval already meets the error tolerance.")
