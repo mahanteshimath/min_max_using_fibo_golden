@@ -30,8 +30,8 @@ st.sidebar.divider()
 st.markdown(r'''
 ### Maximization
 The process is similar to finding the minimum, but the comparison is reversed:
-- If $$\(f(x_1) > f(x_2)\), the maximum lies in \([a, x_2]\)$$.
-- If $$\(f(x_1) < f(x_2)\), the maximum lies in \([x_1, b]\)$$.
+- If \(f(x_1) > f(x_2)\), the maximum lies in \([a, x_2]\).
+- If \(f(x_1) < f(x_2)\), the maximum lies in \([x_1, b]\).
 ''')
 
 st.markdown(r'''
