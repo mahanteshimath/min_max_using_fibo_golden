@@ -62,6 +62,5 @@ if st.sidebar.button("Run Golden Section Search"):
     st.write("Function Plot with Iterations:")
     chart_data = pd.DataFrame({"x": x_values, "y": y_values})
     st.line_chart(chart_data.rename(columns={"x": "x", "y": "f(x)"}))
-    
-    # Highlight the final interval on the plot
+
     st.write(f"Final interval highlighted on the plot: [{final_a}, {final_b}]")
