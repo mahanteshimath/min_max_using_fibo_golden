@@ -29,14 +29,22 @@ st.write("This app finds the minimum of a unimodal function using the Golden Sec
 
 # User Inputs
 st.sidebar.header("Input Parameters")
-function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "(x - 2)**2")
+st.sidebar.markdown("""
+**Function Input Guide:**
+- Use Python math syntax
+- Use `**` for powers
+- Use `-` (hyphen) for minus
+- Use `np.exp()` for exponential
+- Example: `3*x**2 - np.exp(x)` for 3x² - eˣ
+""")
+function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "3*x**2 - np.exp(x)")
 a = st.sidebar.number_input("Enter the lower bound (a):", value=1.0)
 b = st.sidebar.number_input("Enter the upper bound (b):", value=3.0)
 tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.42)
 
 # Define the function from user input
 try:
-    phi = lambda x: eval(function_input)
+    phi = lambda x: eval(function_input, {"np": np, "x": x})
 except Exception as e:
     st.error(f"Error in function definition: {e}")
     st.stop()
