@@ -46,7 +46,7 @@ if st.sidebar.button("Run Golden Section Search"):
     iterations = golden_section_search(phi, a, b, tolerance)
     
     st.write("Iterations:")
-    df = pd.DataFrame(iterations, columns=["Interations","a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
+    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
     pd.set_option('display.float_format', lambda x: '%.5f' % x)
     st.dataframe(df)
     
@@ -54,8 +54,12 @@ if st.sidebar.button("Run Golden Section Search"):
         final_a, final_b = iterations[-1][0], iterations[-1][1]
         x_min = round((final_a + final_b)/2, 5)
         f_min = round(phi(x_min), 5)
+        
+        st.write(f"Total number of iterations: {len(iterations)}")
+        st.write(f"Loop break condition: |b - a| ≤ tolerance")
+        st.write(f"Final interval width: {abs(final_b - final_a):.5f}")
+        st.write(f"Tolerance value: {tolerance}")
         st.write(f"Final interval: [{final_a:.5f}, {final_b:.5f}]")
-        st.write(f"Approximate minimum point: x = {x_min:.5f}")
-        st.write(f"Function value at minimum: f(x) = {f_min:.5f}")
+        st.write(f"Function value at minimum: f({x_min:.5f}) = {f_min:.5f}")
     else:
         st.write("Initial interval already meets the error tolerance.")
