@@ -14,7 +14,7 @@ def golden_section_search(phi, a, b, tolerance):
         phi_x1 = phi(x1)
         phi_x2 = phi(x2)
         
-        iterations.append([x1, x2, phi_x1, phi_x2, a, b])
+        iterations.append([a, b, x1, x2, phi_x1, phi_x2])
         
         if phi_x1 < phi_x2:
             b = x2
@@ -46,10 +46,22 @@ if st.sidebar.button("Run Golden Section Search"):
     iterations = golden_section_search(phi, a, b, tolerance)
     
     # Display iterations in a DataFrame
-    df = pd.DataFrame(iterations, columns=["x1", "x2", "ϕ(x1)", "ϕ(x2)", "a", "b"])
     st.write("Iterations:")
+    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
     st.dataframe(df)
     
     # Display final result
-    st.write(f"Final interval: [{iterations[-1][4]}, {iterations[-1][5]}]")
+    final_a, final_b = iterations[-1][0], iterations[-1][1]
+    st.write(f"Final interval: [{final_a}, {final_b}]")
     st.write(f"Minimum lies within the interval with an error tolerance of {tolerance}.")
+    
+    # Plot the function and iterations
+    x_values = np.linspace(a, b, 400)
+    y_values = [phi(x) for x in x_values]
+    
+    st.write("Function Plot with Iterations:")
+    chart_data = pd.DataFrame({"x": x_values, "y": y_values})
+    st.line_chart(chart_data.rename(columns={"x": "x", "y": "f(x)"}))
+    
+    # Highlight the final interval on the plot
+    st.write(f"Final interval highlighted on the plot: [{final_a}, {final_b}]")
