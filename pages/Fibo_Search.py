@@ -93,7 +93,7 @@ if st.sidebar.button("Run Fibonacci Search"):
     st.write("Iterations:")
     df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
     pd.set_option('display.float_format', lambda x: '%.9f' % x)
-    st.dataframe(df)
+    st.dataframe(df.style.format("{:.9f}"))
     
     if len(iterations) > 0:
         final_a, final_b = iterations[-1][0], iterations[-1][1]
