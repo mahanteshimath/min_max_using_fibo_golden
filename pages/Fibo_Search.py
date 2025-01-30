@@ -10,9 +10,10 @@ def fibonacci_search(phi, a, b, tolerance):
         fib.append(fib[-1] + fib[-2])
     
     n = len(fib) - 1  # Number of iterations
+    k = n
     iterations = []
     
-    for k in range(n - 1, 1, -1):
+    while k > 1:
         x1 = a + (fib[k - 2] / fib[k]) * (b - a)
         x2 = a + (fib[k - 1] / fib[k]) * (b - a)
         
@@ -25,6 +26,24 @@ def fibonacci_search(phi, a, b, tolerance):
             b = x2  # Narrow interval to [a, x2]
         else:
             a = x1  # Narrow interval to [x1, b]
+            
+        k -= 1
+        
+        # Check if we've reached desired tolerance
+        if abs(b - a) <= tolerance:
+            break
+    
+    # Handle final iteration if needed
+    if k == 1 and abs(b - a) > tolerance:
+        x1 = a + 0.01 * (b - a)  # Small perturbation
+        phi_x1 = round(phi(x1), 9)
+        phi_b = round(phi(b), 9)
+        iterations.append([round(a, 9), round(b, 9), x1, b, phi_x1, phi_b])
+        
+        if phi_x1 < phi_b:
+            b = x1
+        else:
+            a = x1
     
     return iterations
 
@@ -128,4 +147,4 @@ text-align: center;
 <p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/mahantesh-hiremath/" target="_blank">MAHANTESH HIREMATH</a></p>
 </div>
 """
-st.markdown(footer,unsafe_allow_html=True)  
+st.markdown(footer,unsafe_allow_html=True)
