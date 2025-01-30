@@ -1,36 +1,54 @@
 import streamlit as st
 
-st.title('Fibonacci and Golden Ratio Theory')
+st.title('Golden Section Search Method Theory')
 
-# Introduction
 st.markdown(r'''
-### Mathematical Foundation
+### Key Concepts
 
-The Fibonacci sequence and Golden Ratio are closely related mathematical concepts.
+The golden ratio (φ) is defined as:
+$$\phi = \frac{\sqrt{5} - 1}{2} \approx 0.618$$
 
-#### Fibonacci Sequence
-The sequence where each number is the sum of the two preceding ones:
-$$F_n = F_{n-1} + F_{n-2}$$
+Its complement (1 - φ) is:
+$$1 - \phi = 0.382$$
 
-#### Golden Ratio (φ)
-The golden ratio is defined as:
-$$\phi = \frac{1 + \sqrt{5}}{2} \approx 1.618033989$$
+### Generic Formula
+Two points x₁ and x₂ are chosen within interval [a, b]:
+$$x_1 = a + (1 - \phi)(b - a)$$
+$$x_2 = a + \phi(b - a)$$
 
-#### Relationship
-The ratio of consecutive Fibonacci numbers approaches φ:
-$$\lim_{n \to \infty} \frac{F_{n+1}}{F_n} = \phi$$
+### Steps for Minimization
 
-#### Golden Ratio Properties
-The golden ratio satisfies:
-$$\phi^2 = \phi + 1$$
+1. **Initialization**
+   - Start with interval [a, b]
+   - Compute intermediate points:
+   $$x_1 = a + (1 - \phi)(b - a)$$
+   $$x_2 = a + \phi(b - a)$$
+
+2. **Iterative Update**
+   - If f(x₁) < f(x₂), new interval: [a, x₂]
+   - Otherwise, new interval: [x₁, b]
+
+3. **Stopping Criterion**
+   $$|b - a| \leq \epsilon$$
+   
+   Approximate minimum:
+   $$x_{min} = \frac{a + b}{2}$$
+
+### Example
+For f(x) = (x - 2)², interval [1, 3], ε = 0.42:
+
+Initial points:
+$$x_1 = 1 + 0.382(3 - 1) = 1.764$$
+$$x_2 = 1 + 0.618(3 - 1) = 2.236$$
 ''')
 
-# Additional mathematical properties
-st.latex(r'\phi = 1 + \frac{1}{\phi}')
+# Add visual separation
+st.markdown("---")
 
-# Applications section
+# Additional section for maximization
 st.markdown(r'''
-### Applications in Optimization
-The golden ratio appears in optimization problems where:
-$$x_{min} = \frac{a + b\phi}{\phi + 1}$$
+### Maximization
+Same process as minimization, but reverse comparison:
+- If f(x₁) > f(x₂): [a, x₂]
+- Otherwise: [x₁, b]
 ''')
