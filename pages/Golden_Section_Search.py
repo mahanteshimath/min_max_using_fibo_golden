@@ -4,26 +4,22 @@ import numpy as np
 
 # Corrected Golden Section Search Function
 def golden_section_search(phi, a, b, tolerance):
-    rho = (np.sqrt(5) - 1) / 2  # Correct golden ratio (~0.618)
+    rho = (np.sqrt(5) - 1) / 2  # Golden ratio (~0.618)
     iterations = []
     
-    # Stop when interval length ≤ 2 * tolerance (error in min is ≤ tolerance)
-    while (b - a) > 2 * tolerance:
-        x1 = a + (1 - rho) * (b - a)
-        x2 = a + rho * (b - a)
+    while abs(b - a) > tolerance:
+        x1 = round(a + (1 - rho) * (b - a), 5)
+        x2 = round(a + rho * (b - a), 5)
         
-        phi_x1 = phi(x1)
-        phi_x2 = phi(x2)
+        phi_x1 = round(phi(x1), 5)
+        phi_x2 = round(phi(x2), 5)
         
-        iterations.append([a, b, x1, x2, phi_x1, phi_x2])
+        iterations.append([round(a, 5), round(b, 5), x1, x2, phi_x1, phi_x2])
         
-        if phi_x1 < phi_x2:
-            b = x2  # Minimum is in [a, x2]
-        elif phi_x1 > phi_x2:
-            a = x1  # Minimum is in [x1, b]
+        if phi_x1 <= phi_x2:  # Changed to <= to handle equality case
+            b = x2  # Choose left interval when equal
         else:
-            # If φ(x1) = φ(x2), retain the interval [x1, x2]
-            b = x2
+            a = x1  # Choose right interval
     
     return iterations
 
@@ -49,15 +45,17 @@ except Exception as e:
 if st.sidebar.button("Run Golden Section Search"):
     iterations = golden_section_search(phi, a, b, tolerance)
     
-    # Display iterations in a DataFrame
     st.write("Iterations:")
     df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
+    pd.set_option('display.float_format', lambda x: '%.5f' % x)
     st.dataframe(df)
     
-    # Display final result
     if len(iterations) > 0:
         final_a, final_b = iterations[-1][0], iterations[-1][1]
-        st.write(f"Final interval: [{final_a}, {final_b}]")
-        st.write(f"Minimum lies within the interval with an error tolerance of {tolerance}.")
+        x_min = round((final_a + final_b)/2, 5)
+        f_min = round(phi(x_min), 5)
+        st.write(f"Final interval: [{final_a:.5f}, {final_b:.5f}]")
+        st.write(f"Approximate minimum point: x = {x_min:.5f}")
+        st.write(f"Function value at minimum: f(x) = {f_min:.5f}")
     else:
         st.write("Initial interval already meets the error tolerance.")
