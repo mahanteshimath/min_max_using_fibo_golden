@@ -23,7 +23,7 @@ def golden_section_search(phi, a, b, tolerance):
             a = x1  # Minimum is in [x1, b]
         else:
             # If φ(x1) = φ(x2), retain the interval [x1, x2]
-            a = x2
+            b = x2
     
     return iterations
 
