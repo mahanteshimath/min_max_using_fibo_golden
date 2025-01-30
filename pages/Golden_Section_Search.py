@@ -56,7 +56,7 @@ if st.sidebar.button("Run Golden Section Search"):
         f_min = round(phi(x_min), 5)
         
         st.write(f"Total number of iterations: {len(iterations)}")
-        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a)} and  {tolerance}  is  {abs(final_b - final_a) <= tolerance} ")
+        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a)} tolerance :{tolerance}  is  {abs(final_b - final_a) <= tolerance} ")
         st.write(f"Final interval width: {abs(final_b - final_a):.5f}")
         st.write(f"Tolerance value: {tolerance}")
         st.write(f"Final interval: [{final_a:.5f}, {final_b:.5f}]")
