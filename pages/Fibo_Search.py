@@ -2,35 +2,35 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Correct Fibonacci Search Function
+# Correct Fibonacci Search Function with proper loop break logic and precision to 9 decimals
 def fibonacci_search(f, a, b, tol=1e-5):
     # Generate Fibonacci numbers until the ratio meets the required precision
     fib = [1, 1]
-    while fib[-1] < (b - a) / tol:
+    while fib[-1] < round((b - a) / tol, 9):
         fib.append(fib[-1] + fib[-2])
 
     n = len(fib) - 1  # Number of iterations required
 
     # Initial points
-    x1 = a + (fib[n - 2] / fib[n]) * (b - a)
-    x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+    x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
+    x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
 
-    f1, f2 = f(x1), f(x2)
+    f1, f2 = round(f(x1), 9), round(f(x2), 9)
 
     iterations = []
 
-    while n > 1:
+    while abs(round(b - a, 9)) > tol:
         iterations.append([round(a, 9), round(b, 9), round(x1, 9), round(x2, 9), round(f1, 9), round(f2, 9)])
         if f1 > f2:
             a = x1
             x1, f1 = x2, f2
-            x2 = a + (fib[n - 1] / fib[n]) * (b - a)
-            f2 = f(x2)
+            x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
+            f2 = round(f(x2), 9)
         else:
             b = x2
             x2, f2 = x1, f1
-            x1 = a + (fib[n - 2] / fib[n]) * (b - a)
-            f1 = f(x1)
+            x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
+            f1 = round(f(x1), 9)
         n -= 1
 
     # Final comparison to minimize interval
