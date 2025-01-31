@@ -3,21 +3,8 @@ import pandas as pd
 import numpy as np
 import random
 
-# Validate if the function is unimodal
-def validate_unimodal(f, a, b, samples=100):
-    """Check if function appears to be unimodal in interval [a,b]"""
-    x = np.linspace(a, b, samples)
-    y = [f(xi) for xi in x]
-    peaks = len([i for i in range(1, len(y)-1) if y[i-1] > y[i] < y[i+1]])
-    valleys = len([i for i in range(1, len(y)-1) if y[i-1] < y[i] > y[i+1]])
-    return peaks + valleys <= 1
-
 # Correct Fibonacci Search Function with proper loop break logic and precision to 9 decimals
 def fibonacci_search(f, a, b, tol=1e-5):
-    # Validate input function
-    if not validate_unimodal(f, a, b):
-        raise ValueError("Function does not appear to be unimodal in the given interval")
-
     # Convert input parameters to float with 9 decimal precision
     a = float(format(float(a), '.9f'))
     b = float(format(float(b), '.9f'))
@@ -39,30 +26,26 @@ def fibonacci_search(f, a, b, tol=1e-5):
 
     iterations = []
 
-    # Corrected while loop condition
-    while fib[n] < (b - a) / tol:
+    while abs(round(b - a, 9)) > tol:
         iterations.append([f"{a:.9f}", f"{b:.9f}", f"{x1:.9f}", f"{x2:.9f}", f"{f1:.9f}", f"{f2:.9f}"])
-        
-        if abs(f1 - f2) < 1e-9:  # Handle equal function values more precisely
-            # Move both points inward by golden ratio
-            golden = 0.618034
-            a = x1 * (1 - golden) + x2 * golden
-            b = x1 * golden + x2 * (1 - golden)
-            x1 = a + (fib[n - 2] / fib[n]) * (b - a)
-            x2 = a + (fib[n - 1] / fib[n]) * (b - a)
-        elif f1 > f2:
+        if f1 > f2:
             a = x1
             x1, f1 = x2, f2
             x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
             f2 = round(f(x2), 9)
-        else:  # f1 < f2
+        elif f1 < f2:
             b = x2
             x2, f2 = x1, f1
             x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
             f1 = round(f(x1), 9)
+        else:  # f1 == f2
+            a = x1 if random.choice([True, False]) else x2
+            x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
+            x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
+            f1, f2 = round(f(x1), 9), round(f(x2), 9)
         n -= 1
 
-    # Final comparison to minimize interval.
+    # Final comparison to minimize interval
     if f1 < f2:
         b = x2
     else:
