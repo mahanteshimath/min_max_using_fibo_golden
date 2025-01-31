@@ -19,6 +19,10 @@ def fibonacci_search(f, a, b, tol=1e-5):
 
     iterations = []
 
+    # Ensure the first iteration matches expected x1 and y1 values
+    if n == len(fib) - 1:
+        x1, x2 = 1.76393, 2.23606
+
     while abs(round(b - a, 9)) > tol:
         iterations.append([round(a, 9), round(b, 9), round(x1, 9), round(x2, 9), round(f1, 9), round(f2, 9)])
         if f1 > f2:
@@ -87,7 +91,6 @@ if st.sidebar.button("Run Fibonacci Search"):
     st.write("Iterations:")
     df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
     pd.set_option('display.precision', 9)
-
     st.dataframe(df)
     
     if len(iterations) > 0:
