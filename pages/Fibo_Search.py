@@ -21,7 +21,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
     iterations = []
 
     while abs(round(b - a, 9)) > tol:
-        iterations.append([round(a, 9), round(b, 9), round(x1, 9), round(x2, 9), round(f1, 9), round(f2, 9)])
+        iterations.append([f"{a:.9f}", f"{b:.9f}", f"{x1:.9f}", f"{x2:.9f}", f"{f1:.9f}", f"{f2:.9f}"])
         if f1 > f2:
             a = x1
             x1, f1 = x2, f2
@@ -96,15 +96,15 @@ if st.sidebar.button("Run Fibonacci Search"):
     st.dataframe(df)
     
     if len(iterations) > 0:
-        final_a, final_b = iterations[-1][0], iterations[-1][1]
-        final_x2 = iterations[-1][3]
+        final_a, final_b = float(iterations[-1][0]), float(iterations[-1][1])
+        final_x2 = float(iterations[-1][3])
         x_min = round((final_a + final_x2)/2, 9)
         f_min = round(phi(x_min), 9)
         
         st.write(f"Total number of iterations: {len(iterations)}")
-        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance}  is  {abs(final_b - final_a) <= tolerance} ")
+        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance:.9f}  is  {abs(final_b - final_a) <= tolerance} ")
         st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
-        st.write(f"Tolerance value: {tolerance}")
+        st.write(f"Tolerance value: {tolerance:.9f}")
         st.write(f"Final interval: [{final_a:.9f}, {final_x2:.9f}]")
         st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
     else:
