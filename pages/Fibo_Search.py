@@ -33,6 +33,12 @@ def fibonacci_search(f, a, b, tol=1e-5):
             f1 = f(x1)
         n -= 1
 
+    # Final comparison to minimize interval
+    if f1 < f2:
+        b = x2
+    else:
+        a = x1
+
     return iterations
 
 def sanitize_function(func_str):
