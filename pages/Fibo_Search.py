@@ -19,10 +19,6 @@ def fibonacci_search(f, a, b, tol=1e-5):
 
     iterations = []
 
-    # Ensure the first iteration matches expected x1 and y1 values
-    if n == len(fib) - 1:
-        x1, x2 = 1.76393, 2.23606
-
     while abs(round(b - a, 9)) > tol:
         iterations.append([round(a, 9), round(b, 9), round(x1, 9), round(x2, 9), round(f1, 9), round(f2, 9)])
         if f1 > f2:
@@ -74,7 +70,7 @@ st.sidebar.markdown("""
 function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "(x-2)**2")
 a = st.sidebar.number_input("Enter the lower bound (a):", value=1.0)
 b = st.sidebar.number_input("Enter the upper bound (b):", value=3.0)
-tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.42)
+tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.0002, format="%.9f")
 
 # Define the function from user input with sanitization
 try:
