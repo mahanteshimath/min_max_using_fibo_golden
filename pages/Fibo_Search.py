@@ -68,9 +68,9 @@ st.sidebar.markdown("""
   * 3*x**2 - np.exp(x)
 """)
 function_input = st.sidebar.text_input("Enter the function (use 'x' as the variable):", "(x-2)**2")
-a = st.sidebar.number_input("Enter the lower bound (a):", value=1.0)
-b = st.sidebar.number_input("Enter the upper bound (b):", value=3.0)
-tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.0002, format="%.9f")
+a = st.sidebar.number_input("Enter the lower bound (a):", value=1.0, format="%.9f")
+b = st.sidebar.number_input("Enter the upper bound (b):", value=3.0, format="%.9f")
+tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum point:", value=0.42, format="%.9f")
 
 # Define the function from user input with sanitization
 try:
