@@ -5,18 +5,24 @@ import random
 
 # Correct Fibonacci Search Function with proper loop break logic and precision to 9 decimals
 def fibonacci_search(f, a, b, tol=1e-5):
+    # Convert input parameters to float with 9 decimal precision
+    a = float(format(float(a), '.9f'))
+    b = float(format(float(b), '.9f'))
+    tol = float(format(float(tol), '.9f'))
+
     # Generate Fibonacci numbers until the ratio meets the required precision
-    fib = [1, 1]
-    while fib[-1] < round((b - a) / tol, 9):
-        fib.append(fib[-1] + fib[-2])
+    fib = [1.0, 1.0]
+    while fib[-1] < float(format((b - a) / tol, '.9f')):
+        fib.append(float(format(fib[-1] + fib[-2], '.9f')))
 
     n = len(fib) - 1  # Number of iterations required
 
-    # Initial points
-    x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
-    x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
+    # Initial points with explicit float conversion and 9 decimal precision
+    x1 = float(format(a + (fib[n - 2] / fib[n]) * (b - a), '.9f'))
+    x2 = float(format(a + (fib[n - 1] / fib[n]) * (b - a), '.9f'))
 
-    f1, f2 = round(f(x1), 9), round(f(x2), 9)
+    f1 = float(format(f(x1), '.9f'))
+    f2 = float(format(f(x2), '.9f'))
 
     iterations = []
 
