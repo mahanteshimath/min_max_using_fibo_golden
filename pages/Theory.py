@@ -163,7 +163,18 @@ $$x_{min} = 2.000$$
 $$f(x_{min}) = 0.000$$
 ''')
 
+st.markdown(r'''
+### The Golden Section Search Method and the Fibonacci Search Method are both optimization techniques used to find the minimum or maximum of a unimodal function within a specified interval. While they share similarities, there are key differences between the two methods. Below is a detailed comparison
 
+| Feature                  | Golden Section Search               | Fibonacci Search                  |
+|--------------------------|-------------------------------------|------------------------------------|
+| **Basis**                | Golden ratio (\(\phi \approx 0.618\)) | Fibonacci sequence                |
+| **Interval Reduction**   | Constant factor (\(\phi\))          | Variable factor (Fibonacci-based) |
+| **Efficiency**           | Slightly less efficient             | More efficient                    |
+| **Number of Iterations** | Fixed reduction factor              | Dynamic reduction factor          |
+| **Implementation**       | Simpler                             | Slightly more complex             |
+| **Applications**         | General-purpose, simple problems    | Efficiency-critical problems      |
+''')
 st.markdown(
     '''
     <style>
