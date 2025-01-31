@@ -168,8 +168,8 @@ st.markdown(r'''
 
 | Feature                  | Golden Section Search               | Fibonacci Search                  |
 |--------------------------|-------------------------------------|------------------------------------|
-| **Basis**                | Golden ratio (\(\phi \approx 0.618\)) | Fibonacci sequence                |
-| **Interval Reduction**   | Constant factor (\(\phi\))          | Variable factor (Fibonacci-based) |
+| **Basis**                | Golden ratio $$phi$$ approx 0.618 | Fibonacci sequence                |
+| **Interval Reduction**   | Constant factor $$phi$$          | Variable factor (Fibonacci-based) |
 | **Efficiency**           | Slightly less efficient             | More efficient                    |
 | **Number of Iterations** | Fixed reduction factor              | Dynamic reduction factor          |
 | **Implementation**       | Simpler                             | Slightly more complex             |
