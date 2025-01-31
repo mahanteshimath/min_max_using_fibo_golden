@@ -11,7 +11,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
     tol = float(format(float(tol), '.9f'))
 
     # Generate Fibonacci numbers until the ratio meets the required precision
-    fib = [1.0, 1.0]
+    fib = [1.00000000, 1.000000000]
     while fib[-1] < float(format((b - a) / tol, '.9f')):
         fib.append(float(format(fib[-1] + fib[-2], '.9f')))
 
