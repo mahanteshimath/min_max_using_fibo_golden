@@ -61,7 +61,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
             f1 = round(f(x1), 9)
         n -= 1
 
-    # Final comparison to minimize interval
+    # Final comparison to minimize interval.
     if f1 < f2:
         b = x2
     else:
