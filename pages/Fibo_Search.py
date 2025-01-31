@@ -45,9 +45,9 @@ def fibonacci_search(f, a, b, tol=1e-5):
         
         if abs(f1 - f2) < 1e-9:  # Handle equal function values more precisely
             # Move both points inward by golden ratio
-            # golden = 0.618034
-            # a = x1 * (1 - golden) + x2 * golden
-            # b = x1 * golden + x2 * (1 - golden)
+            golden = 0.618034
+            a = x1 * (1 - golden) + x2 * golden
+            b = x1 * golden + x2 * (1 - golden)
             x1 = a + (fib[n - 2] / fib[n]) * (b - a)
             x2 = a + (fib[n - 1] / fib[n]) * (b - a)
         elif f1 > f2:
