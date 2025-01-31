@@ -26,7 +26,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
 
     iterations = []
 
-    while abs(round(b - a, 9)) > tol:
+    while abs(round(b - a, 9)/tol) > 1:
         iterations.append([f"{a:.9f}", f"{b:.9f}", f"{x1:.9f}", f"{x2:.9f}", f"{f1:.9f}", f"{f2:.9f}"])
         if f1 > f2:
             a = x1
