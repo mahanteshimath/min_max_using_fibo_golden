@@ -2,50 +2,35 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Fibonacci Search Function
-def fibonacci_search(phi, a, b, tolerance):
-    # Generate Fibonacci sequence up to F_n >= (b - a) / tolerance
-    fib = [0, 1]
-    while fib[-1] < (b - a) / tolerance:
+# Correct Fibonacci Search Function
+def fibonacci_search(f, a, b, tol=1e-5):
+    # Generate Fibonacci numbers until the ratio meets the required precision
+    fib = [1, 1]
+    while fib[-1] < (b - a) / tol:
         fib.append(fib[-1] + fib[-2])
-    
-    n = len(fib) - 1  # Number of iterations
-    k = n
-    iterations = []
-    
-    while k > 1:
-        x1 = a + (fib[k - 2] / fib[k]) * (b - a)
-        x2 = a + (fib[k - 1] / fib[k]) * (b - a)
-        
-        phi_x1 = round(phi(x1), 9)
-        phi_x2 = round(phi(x2), 9)
-        
-        iterations.append([round(a, 9), round(b, 9), x1, x2, phi_x1, phi_x2])
-        
-        if phi_x1 < phi_x2:
-            b = x2  # Narrow interval to [a, x2]
-        else:
-            a = x1  # Narrow interval to [x1, b]
-            
-        k -= 1
-        
-        # Check if we've reached desired tolerance
-        if abs(b - a) <= tolerance:
-            break
-    
-    # Handle final iteration if needed
-    if k == 1 and abs(b - a) > tolerance:
-        x1 = a + 0.01 * (b - a)  # Small perturbation
-        phi_x1 = round(phi(x1), 9)
-        phi_b = round(phi(b), 9)
-        iterations.append([round(a, 9), round(b, 9), x1, b, phi_x1, phi_b])
-        
-        if phi_x1 < phi_b:
-            b = x1
-        else:
+
+    n = len(fib) - 1  # Number of iterations required
+
+    # Initial points
+    x1 = a + (fib[n - 2] / fib[n]) * (b - a)
+    x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+
+    f1, f2 = f(x1), f(x2)
+
+    while n > 1:
+        if f1 > f2:
             a = x1
-    
-    return iterations
+            x1, f1 = x2, f2
+            x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+            f2 = f(x2)
+        else:
+            b = x2
+            x2, f2 = x1, f1
+            x1 = a + (fib[n - 2] / fib[n]) * (b - a)
+            f1 = f(x1)
+        n -= 1
+
+    return (a + b) / 2  # Approximate minimum
 
 def sanitize_function(func_str):
     # Replace unicode minus with regular minus
@@ -88,32 +73,10 @@ except Exception as e:
 
 # Run Fibonacci Search
 if st.sidebar.button("Run Fibonacci Search"):
-    iterations = fibonacci_search(phi, a, b, tolerance)
+    min_x = fibonacci_search(phi, a, b, tolerance)
     
-    st.write("Iterations:")
-    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
-    pd.set_option('display.float_format', lambda x: '%.9f' % x)
-    st.dataframe(df.style.format("{:.9f}"))
-    
-    if len(iterations) > 0:
-        final_a, final_b = iterations[-1][0], iterations[-1][1]
-        final_x2 = iterations[-1][3]
-        x_min = round((final_a + final_x2) / 2, 9)
-        f_min = round(phi(x_min), 9)
-        
-        st.write(f"Total number of iterations: {len(iterations)}")
-        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance}  is  {abs(final_b - final_a) <= tolerance} ")
-        st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
-        st.write(f"Tolerance value: {tolerance}")
-        st.write(f"Final interval: [{final_a:.9f}, {final_x2:.9f}]")
-        st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
-    else:
-        st.write("Initial interval already meets the error tolerance.")
-
-
-
-
-
+    st.write(f"Approximate minimum at x = {min_x:.9f}")
+    st.write(f"Function value at minimum: f({min_x:.9f}) = {phi(min_x):.9f}")
 
 st.markdown(
     '''
@@ -132,7 +95,6 @@ st.markdown(
 )
 
 footer="""<style>
-
 .footer {
 position: fixed;
 left: 0;
