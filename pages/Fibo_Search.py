@@ -2,49 +2,72 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import random
-from sympy import symbols, sympify
-import plotly.graph_objects as go
+
+# Validate if the function is unimodal
+def validate_unimodal(f, a, b, samples=100):
+    """Check if function appears to be unimodal in interval [a,b]"""
+    x = np.linspace(a, b, samples)
+    y = [f(xi) for xi in x]
+    peaks = len([i for i in range(1, len(y)-1) if y[i-1] > y[i] < y[i+1]])
+    valleys = len([i for i in range(1, len(y)-1) if y[i-1] < y[i] > y[i+1]])
+    return peaks + valleys <= 1
 
 # Correct Fibonacci Search Function with proper loop break logic and precision to 9 decimals
-def fibonacci_search(func, a, b, tol=1e-6, max_iter=100):
-    """Fibonacci search method implementation"""
-    # Generate Fibonacci numbers
-    fib = [1, 1]
-    while fib[-1] < (b - a) / tol:
-        fib.append(fib[-1] + fib[-2])
-    n = len(fib) - 1
+def fibonacci_search(f, a, b, tol=1e-5):
+    # Validate input function
+    if not validate_unimodal(f, a, b):
+        raise ValueError("Function does not appear to be unimodal in the given interval")
+
+    # Convert input parameters to float with 9 decimal precision
+    a = float(format(float(a), '.9f'))
+    b = float(format(float(b), '.9f'))
+    tol = float(format(float(tol), '.9f'))
+
+    # Generate Fibonacci numbers until the ratio meets the required precision
+    fib = [1.00000000, 1.000000000]
+    while fib[-1] < float(format((b - a) / tol, '.9f')):
+        fib.append(float(format(fib[-1] + fib[-2], '.9f')))
+
+    n = len(fib) - 1  # Number of iterations required
+
+    # Initial points with explicit float conversion and 9 decimal precision
+    x1 = float(format(a + (fib[n - 2] / fib[n]) * (b - a), '.9f'))
+    x2 = float(format(a + (fib[n - 1] / fib[n]) * (b - a), '.9f'))
+
+    f1 = float(format(f(x1), '.9f'))
+    f2 = float(format(f(x2), '.9f'))
+
     iterations = []
-    
-    # Initial points
-    x1 = a + (fib[n-2] / fib[n]) * (b - a)
-    x2 = a + (fib[n-1] / fib[n]) * (b - a)
-    
-    for k in range(n):
-        f1 = func(x1)
-        f2 = func(x2)
+
+    while abs(round(b - a, 9)) > tol:
+        iterations.append([f"{a:.9f}", f"{b:.9f}", f"{x1:.9f}", f"{x2:.9f}", f"{f1:.9f}", f"{f2:.9f}"])
         
-        iterations.append({
-            'iteration': k + 1,
-            'interval': [a, b],
-            'x1': x1,
-            'x2': x2,
-            'f1': f1,
-            'f2': f2
-        })
-        
-        if f1 < f2:
-            b = x2
-            x2 = x1
-            x1 = a + (fib[n-k-3] / fib[n-k-1]) * (b - a)
-        else:
+        if abs(f1 - f2) < 1e-9:  # Handle equal function values more precisely
+            # Move both points inward by golden ratio
+            golden = 0.618034
+            a = x1 * (1 - golden) + x2 * golden
+            b = x1 * golden + x2 * (1 - golden)
+            x1 = a + (fib[n - 2] / fib[n]) * (b - a)
+            x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+        elif f1 > f2:
             a = x1
-            x1 = x2
-            x2 = a + (fib[n-k-2] / fib[n-k-1]) * (b - a)
-            
-        if abs(b - a) < tol:
-            break
-    
-    return (a + b) / 2, iterations
+            x1, f1 = x2, f2
+            x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
+            f2 = round(f(x2), 9)
+        else:  # f1 < f2
+            b = x2
+            x2, f2 = x1, f1
+            x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
+            f1 = round(f(x1), 9)
+        n -= 1
+
+    # Final comparison to minimize interval
+    if f1 < f2:
+        b = x2
+    else:
+        a = x1
+
+    return iterations
 
 def sanitize_function(func_str):
     # Replace unicode minus with regular minus
@@ -80,33 +103,34 @@ tolerance = st.sidebar.number_input("Enter the error tolerance for the minimum p
 # Define the function from user input with sanitization
 try:
     sanitized_input = sanitize_function(function_input)
-    x = symbols('x')
-    func_expr = sympify(sanitized_input)
-    phi = lambda x_val: float(func_expr.subs(x, x_val))
+    phi = lambda x: eval(sanitized_input, {"np": np, "x": x})
 except Exception as e:
     st.error(f"Error in function definition: {str(e)}\nSanitized input: {sanitized_input}")
     st.stop()
 
 # Run Fibonacci Search
 if st.sidebar.button("Run Fibonacci Search"):
-    x_min, iterations = fibonacci_search(phi, a, b, tolerance)
+    iterations = fibonacci_search(phi, a, b, tolerance)
     
-    st.write(f"Minimum found at x = {x_min:.4f}")
-    st.write(f"Minimum value = {phi(x_min):.4f}")
-    ##
-    x_vals = np.linspace(a, b, 200)
-    y_vals = [phi(x_val) for x_val in x_vals]
+    st.write("Iterations:")
+    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
+    pd.set_option('display.precision', 9)
+    st.dataframe(df)
     
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=x_vals, y=y_vals, name='f(x)'))
-    
-    # Show iterations
-    st.write("### Iteration Details")
-    for iter_data in iterations:
-        st.write(f"Iteration {iter_data['iteration']}")
-        st.write(f"Interval: [{iter_data['interval'][0]:.4f}, {iter_data['interval'][1]:.4f}]")
-    
-    st.plotly_chart(fig)
+    if len(iterations) > 0:
+        final_a, final_b = float(iterations[-1][0]), float(iterations[-1][1])
+        final_x2 = float(iterations[-1][3])
+        x_min = round((final_a + final_x2)/2, 9)
+        f_min = round(phi(x_min), 9)
+        
+        st.write(f"Total number of iterations: {len(iterations)}")
+        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance:.9f}  is  {abs(final_b - final_a) <= tolerance} ")
+        st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
+        st.write(f"Tolerance value: {tolerance:.9f}")
+        st.write(f"Final interval: [{final_a:.9f}, {final_x2:.9f}]")
+        st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
+    else:
+        st.write("Initial interval already meets the error tolerance.")
 
 st.markdown(
     '''
