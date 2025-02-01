@@ -61,10 +61,13 @@ if st.sidebar.button("Run Fibonacci Search"):
         st.dataframe(df)
         
         final_a, final_b = iterations[-1][0], iterations[-1][1]
-        final_x1 = iterations[-1][2]
+        x_min = round((final_a + final_b)/2, 9)
+        f_min = round(phi(x_min), 9)
+        
         st.write(f"Total number of iterations: {len(iterations)}")
-        st.write(f"Final Interval: [{final_a:.9f}, {final_b:.9f}]")
-        st.write(f"Estimated Minimum Point: {final_x1:.9f}")
-        st.write(f"Function Value at Minimum: {f(final_x1):.9f}")
+        st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
+        st.write(f"Tolerance value: {tolerance}")
+        st.write(f"Final interval: [{final_a:.9f}, {final_b:.9f}]")
+        st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
     else:
         st.write("Initial interval already satisfies the tolerance.")
