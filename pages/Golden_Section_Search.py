@@ -74,7 +74,7 @@ if st.sidebar.button("Run Golden Section Search"):
     if len(iterations) > 0:
         final_a, final_b = iterations[-1][0], iterations[-1][1]
        
-        x_min = round((final_a + final_x2)/2, 9)
+        x_min = round((final_a + final_b)/2, 9)
         f_min = round(phi(x_min), 9)
         
         st.write(f"Total number of iterations: {len(iterations)}")
