@@ -37,8 +37,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
             f1 = f(x1)
         else:
             a = x1 if random.choice([True, False]) else x2
-
-        n -= 1
+            n -= 1
 
     # Final interval adjustment
     if f1 < f2:
