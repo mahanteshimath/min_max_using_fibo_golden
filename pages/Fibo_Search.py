@@ -2,20 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import random
-import math
 
 # Fibonacci Search Function
 def fibonacci_search(f, a, b, tol=1e-5):
-    # Calculate the golden ratio φ
-    phi = 1.618
-
-    # Calculate the number of iterations
-    n = math.ceil(math.log(5 * (b - a) / tol) / math.log(phi))
-
     # Generate Fibonacci numbers until the ratio meets the required precision
     fib = [1, 1]
-    while len(fib) <= n:
+    while fib[-1] < (b - a) / tol:
         fib.append(fib[-1] + fib[-2])
+    n = len(fib) - 1  # Number of iterations
 
     # Initial points
     x1 = a + (fib[n - 2] / fib[n]) * (b - a)
@@ -37,7 +31,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
             f1 = f(x1)
         else:
             a = x1 if random.choice([True, False]) else x2
-            n -= 1
+        n -= 1
 
     # Final interval adjustment
     if f1 < f2:
