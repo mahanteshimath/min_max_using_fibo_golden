@@ -62,6 +62,7 @@ if st.sidebar.button("Run Fibonacci Search"):
         
         final_a, final_b = iterations[-1][0], iterations[-1][1]
         final_x1 = iterations[-1][2]
+        st.write(f"Total number of iterations: {len(iterations)}")
         st.write(f"Final Interval: [{final_a:.9f}, {final_b:.9f}]")
         st.write(f"Estimated Minimum Point: {final_x1:.9f}")
         st.write(f"Function Value at Minimum: {f(final_x1):.9f}")
