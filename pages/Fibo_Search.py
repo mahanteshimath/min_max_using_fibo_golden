@@ -17,7 +17,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
     f1, f2 = f(x1), f(x2)
 
     iterations = []
-    while abs(b - a) > tol:
+    while abs(b - a) >= tol:
         iterations.append([a, b, x1, x2, f1, f2])
         if f1 > f2:
             a = x1
