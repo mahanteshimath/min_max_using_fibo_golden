@@ -7,7 +7,7 @@ import math
 # Fibonacci Search Function
 def fibonacci_search(f, a, b, tol=1e-5):
     # Calculate the golden ratio φ
-    phi = (1 + math.sqrt(5)) / 2
+    phi = 1.618
 
     # Calculate the number of iterations
     n = math.ceil(math.log(5 * (b - a) / tol) / math.log(phi))
