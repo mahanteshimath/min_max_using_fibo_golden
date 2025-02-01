@@ -3,49 +3,37 @@ import pandas as pd
 import numpy as np
 import random
 
-# Correct Fibonacci Search Function with proper loop break logic and precision to 9 decimals
+# Fibonacci Search Function
 def fibonacci_search(f, a, b, tol=1e-5):
-    # Convert input parameters to float with 9 decimal precision
-    a = float(format(float(a), '.9f'))
-    b = float(format(float(b), '.9f'))
-    tol = float(format(float(tol), '.9f'))
-
     # Generate Fibonacci numbers until the ratio meets the required precision
-    fib = [1.00000000, 1.000000000]
-    while fib[-1] < float(format((b - a) / tol, '.9f')):
-        fib.append(float(format(fib[-1] + fib[-2], '.9f')))
+    fib = [1, 1]
+    while fib[-1] < (b - a) / tol:
+        fib.append(fib[-1] + fib[-2])
+    n = len(fib) - 1  # Number of iterations
 
-    n = len(fib) - 1  # Number of iterations required
-
-    # Initial points with explicit float conversion and 9 decimal precision
-    x1 = float(format(a + (fib[n - 2] / fib[n]) * (b - a), '.9f'))
-    x2 = float(format(a + (fib[n - 1] / fib[n]) * (b - a), '.9f'))
-
-    f1 = float(format(f(x1), '.9f'))
-    f2 = float(format(f(x2), '.9f'))
+    # Initial points
+    x1 = a + (fib[n - 2] / fib[n]) * (b - a)
+    x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+    f1, f2 = f(x1), f(x2)
 
     iterations = []
-
-    while abs(round(b - a, 9)/tol) > 1:
-        iterations.append([f"{a:.9f}", f"{b:.9f}", f"{x1:.9f}", f"{x2:.9f}", f"{f1:.9f}", f"{f2:.9f}"])
+    while abs(b - a) > tol:
+        iterations.append([a, b, x1, x2, f1, f2])
         if f1 > f2:
             a = x1
             x1, f1 = x2, f2
-            x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
-            f2 = round(f(x2), 9)
+            x2 = a + (fib[n - 1] / fib[n]) * (b - a)
+            f2 = f(x2)
         elif f1 < f2:
             b = x2
             x2, f2 = x1, f1
-            x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
-            f1 = round(f(x1), 9)
-        else:  # f1 == f2
+            x1 = a + (fib[n - 2] / fib[n]) * (b - a)
+            f1 = f(x1)
+        else:
             a = x1 if random.choice([True, False]) else x2
-            x1 = round(a + (fib[n - 2] / fib[n]) * (b - a), 9)
-            x2 = round(a + (fib[n - 1] / fib[n]) * (b - a), 9)
-            f1, f2 = round(f(x1), 9), round(f(x2), 9)
         n -= 1
 
-    # Final comparison to minimize interval
+    # Final interval adjustment
     if f1 < f2:
         b = x2
     else:
@@ -53,6 +41,7 @@ def fibonacci_search(f, a, b, tol=1e-5):
 
     return iterations
 
+# Function Sanitizer
 def sanitize_function(func_str):
     # Replace unicode minus with regular minus
     func_str = func_str.replace('−', '-')
@@ -94,45 +83,48 @@ except Exception as e:
 
 # Run Fibonacci Search
 if st.sidebar.button("Run Fibonacci Search"):
-    iterations = fibonacci_search(phi, a, b, tolerance)
-    
-    st.write("Iterations:")
-    df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
-    pd.set_option('display.precision', 9)
-    st.dataframe(df)
-    
-    if len(iterations) > 0:
-        final_a, final_b = float(iterations[-1][0]), float(iterations[-1][1])
-        final_x2 = float(iterations[-1][3])
-        x_min = round((final_a + final_x2)/2, 9)
-        f_min = round(phi(x_min), 9)
-        
-        st.write(f"Total number of iterations: {len(iterations)}")
-        st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance:.9f}  is  {abs(final_b - final_a) <= tolerance} ")
-        st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
-        st.write(f"Tolerance value: {tolerance:.9f}")
-        st.write(f"Final interval: [{final_a:.9f}, {final_x2:.9f}]")
-        st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
-    else:
+    # Check if initial interval already meets the tolerance
+    if abs(b - a) <= tolerance:
         st.write("Initial interval already meets the error tolerance.")
+    else:
+        iterations = fibonacci_search(phi, a, b, tolerance)
+        
+        st.write("Iterations:")
+        df = pd.DataFrame(iterations, columns=["a", "b", "x1", "x2", "ϕ(x1)", "ϕ(x2)"])
+        pd.set_option('display.precision', 9)
+        st.dataframe(df)
+        
+        if len(iterations) > 0:
+            final_a, final_b = float(iterations[-1][0]), float(iterations[-1][1])
+            x_min = (final_a + final_b) / 2
+            f_min = phi(x_min)
+            
+            st.write(f"Total number of iterations: {len(iterations)}")
+            st.write(f"Loop break condition: |b - a| ≤ tolerance value : {abs(final_b - final_a):.9f} tolerance :{tolerance:.9f}  is  {abs(final_b - final_a) <= tolerance}")
+            st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
+            st.write(f"Tolerance value: {tolerance:.9f}")
+            st.write(f"Final interval: [{final_a:.9f}, {final_b:.9f}]")
+            st.write(f"Function value at minimum: f({x_min:.9f}) = {f_min:.9f}")
+        else:
+            st.write("No iterations were needed as the initial interval already met the tolerance.")
 
 st.markdown(
     '''
     <style>
     .streamlit-expanderHeader {
         background-color: blue;
-        color: white; # Adjust this for expander header color
+        color: white;
     }
     .streamlit-expanderContent {
         background-color: blue;
-        color: white; # Expander content color
+        color: white;
     }
     </style>
     ''',
     unsafe_allow_html=True
 )
 
-footer="""<style>
+footer = """<style>
 .footer {
 position: fixed;
 left: 0;
@@ -147,4 +139,4 @@ text-align: center;
 <p>Developed with ❤️ by <a style='display: inline; text-align: center;' href="https://www.linkedin.com/in/mahantesh-hiremath/" target="_blank">MAHANTESH HIREMATH</a></p>
 </div>
 """
-st.markdown(footer,unsafe_allow_html=True)
+st.markdown(footer, unsafe_allow_html=True)
