@@ -62,7 +62,7 @@ if st.sidebar.button("Run Fibonacci Search"):
         
         final_a, final_b = iterations[-1][0], iterations[-1][1]
         x_min = round((final_a + final_b)/2, 9)
-        f_min = round(phi(x_min), 9)
+        f_min = round(f(x_min), 9)
         
         st.write(f"Total number of iterations: {len(iterations)}")
         st.write(f"Final interval width: {abs(final_b - final_a):.9f}")
