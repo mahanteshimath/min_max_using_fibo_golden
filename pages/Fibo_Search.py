@@ -22,14 +22,14 @@ def fibonacci_search(f, a, b, tol):
             break
         if f1 < f2:
             b = x2
-            x2, f2 = x1, f1
+            a,b= a, x2
             x1 = a + (fib[n-i-2] / fib[n-i]) * (b - a)
             f1 = f(x1)
         
             
         else:
             a = x1
-            x1, f1 = x2, f2
+            a,b= x1, b
             x2 = a + (fib[n-i-1] / fib[n-i]) * (b - a)
             f2 = f(x2)
            
