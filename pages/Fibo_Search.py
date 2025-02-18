@@ -18,7 +18,7 @@ def fibonacci_search(f, a, b, tol):
     iterations = []
     for i in range(n):
         iterations.append([a, b, x1, x2, f1, f2])
-        if abs(b - a) <= tol:
+        if abs(b - a) < tol:
             break
         if f1 > f2:
             a = x1
