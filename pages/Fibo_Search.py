@@ -8,7 +8,7 @@ def fibonacci_search(f, a, b, tol):
     fib = [1, 1]
     while fib[-1] < (b - a) / tol:
         fib.append(fib[-1] + fib[-2])
-    n = len(fib) - 1  # Index of the Fibonacci number exceeding the threshold
+    n = len(fib) # Index of the Fibonacci number exceeding the threshold
 
     # Check if the initial interval is already smaller than the tolerance
     if (b - a) < tol:
@@ -20,22 +20,24 @@ def fibonacci_search(f, a, b, tol):
     f1, f2 = f(x1), f(x2)
 
     iterations = []
-    for i in range(n-1):  # Correct number of iterations
+    for i in range(n-2):  # Correct number of iterations
         iterations.append([a, b, x1, x2, f1, f2])
         if abs(b - a) < tol:
             break
         if f1 < f2:
             # Update the interval to [a, x2]
             b = x2
-            # Swap x1 and x2, then compute new x1
-            x2, x1 = x1, a + (fib[n - i - 3] / fib[n - i - 1]) * (b - a)
-            f2, f1 = f1, f(x1)
+            x2 = x1
+            f2 = f1
+            x1 = a + (fib[n - i - 3] / fib[n - i - 1]) * (b - a)
+            f1 = f(x1)
         else:
             # Update the interval to [x1, b]
             a = x1
-            # Swap x1 and x2, then compute new x2
-            x1, x2 = x2, a + (fib[n - i - 2] / fib[n - i - 1]) * (b - a)
-            f1, f2 = f2, f(x2)
+            x1 = x2
+            f1 = f2
+            x2 = a + (fib[n - i - 2] / fib[n - i - 1]) * (b - a)
+            f2 = f(x2)
     iterations.append([a, b, x1, x2, f1, f2])
     return iterations
 
