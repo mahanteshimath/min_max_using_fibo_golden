@@ -20,7 +20,7 @@ def fibonacci_search(f, a, b, tol):
     f1, f2 = f(x1), f(x2)
 
     iterations = []
-    for i in range(n-2):  # Correct number of iterations
+    for i in range(n-1):  # Correct number of iterations
         iterations.append([a, b, x1, x2, f1, f2])
         if abs(b - a) < tol:
             break
