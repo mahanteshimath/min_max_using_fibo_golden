@@ -7,7 +7,7 @@ def golden_section_search(phi, a, b, tolerance):
     rho = (np.sqrt(5) - 1) / 2  # Golden ratio (~0.618)
     iterations = []
     
-    while abs(b - a) > tolerance:
+    while abs(b - a) < tolerance:
         x1 = round(a + (1 - rho) * (b - a), 9)
         x2 = round(a + rho * (b - a), 9)
         
