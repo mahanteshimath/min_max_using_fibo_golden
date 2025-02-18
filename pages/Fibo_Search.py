@@ -6,7 +6,7 @@ import numpy as np
 def fibonacci_search(f, a, b, tol):
     # Generate Fibonacci numbers
     fib = [1, 1]
-    while fib[-1] < (b - a) / tol:
+    while fib[-1] < ((b - a) / tol):
         fib.append(fib[-1] + fib[-2])
     
     n = len(fib) - 1  # Number of iterations
