@@ -8,7 +8,7 @@ def fibonacci_search(f, a, b, tol):
     fib = [1, 1]
     while fib[-1] < (b - a) / tol:
         fib.append(fib[-1] + fib[-2])
-    n = len(fib) # Index of the Fibonacci number exceeding the threshold
+    n = len(fib) - 1  # Index of the Fibonacci number exceeding the threshold
 
     # Check if the initial interval is already smaller than the tolerance
     if (b - a) < tol:
