@@ -20,16 +20,19 @@ def fibonacci_search(f, a, b, tol):
         iterations.append([a, b, x1, x2, f1, f2])
         if abs(b - a) < tol:
             break
-        if f1 > f2:
-            a = x1
-            x1, f1 = x2, f2
-            x2 = a + (fib[n-i-1] / fib[n-i]) * (b - a)
-            f2 = f(x2)
-        else:
+        if f1 < f2:
             b = x2
             x2, f2 = x1, f1
             x1 = a + (fib[n-i-2] / fib[n-i]) * (b - a)
             f1 = f(x1)
+        
+            
+        else:
+            a = x1
+            x1, f1 = x2, f2
+            x2 = a + (fib[n-i-1] / fib[n-i]) * (b - a)
+            f2 = f(x2)
+           
     return iterations
 
 # Streamlit UI
